@@ -5,8 +5,8 @@ This repository is an internal fork of [steipete/CodexBar](https://github.com/st
 
 Current distribution model:
 - Build from source on macOS
+- Optional internal ad-hoc binary ZIP (click-to-open install path)
 - Share changes through fork branches + pull requests
-- No binary distribution required for now
 
 ## Prerequisites
 - macOS 14+
@@ -90,6 +90,41 @@ log stream --style compact --predicate 'subsystem == "com.steipete.codexbar"'
 ```text
 ~/Library/Logs/CodexBar/CodexBar.log
 ```
+
+## Optional: Internal Ad-hoc Binary Distribution
+Use this when teammates prefer installing an app bundle instead of building from source.
+
+### Maintainer: build ad-hoc ZIP artifact
+From repo root:
+
+```bash
+./Scripts/build_internal_adhoc_release.sh
+```
+
+Artifact output:
+
+```text
+dist/internal/CodexBar-internal-adhoc-v<VERSION>-b<BUILD>-<COMMIT>.zip
+```
+
+Share that ZIP internally (Slack/Drive/GitHub Release in your fork).
+
+### Teammate: install by clicking app
+1. Download and unzip the internal ZIP.
+2. Move `CodexBar.app` to `/Applications` (or keep in user apps folder).
+3. Open `CodexBar.app` by double-click.
+4. If macOS blocks first launch:
+   - Right-click app -> Open
+   - If needed:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/CodexBar.app
+open /Applications/CodexBar.app
+```
+
+Notes:
+- Ad-hoc binaries are intended for internal use/testing.
+- Auto-update and notarization are not part of this ad-hoc flow.
 
 ## Configuration (No Secrets in Git)
 Never commit API keys or cookies to the repository.
