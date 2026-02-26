@@ -1,5 +1,51 @@
 # CodexBar Fork - Internal Build and Contributor Guide
 
+## 1-Minute Guide
+
+Choose one path:
+
+### A) Build from source (recommended for contributors)
+```bash
+git clone https://github.com/alexcol23/CodexBar.git
+cd CodexBar
+xed .
+```
+
+In Xcode:
+- Scheme: `CodexBar`
+- Destination: `My Mac`
+- Run: `⌘R`
+
+### B) Install internal binary (fastest for non-dev users)
+1. Download internal ZIP from your team share.
+2. Unzip and move `CodexBar.app` to `/Applications`.
+3. Open app (if blocked: right-click -> Open once).
+
+If needed:
+```bash
+xattr -dr com.apple.quarantine /Applications/CodexBar.app
+open /Applications/CodexBar.app
+```
+
+### Configure LiteLLM (required)
+Create/update `~/.codexbar/config.json`:
+```json
+{
+  "version": 1,
+  "providers": [
+    {
+      "id": "litellm",
+      "enabled": true,
+      "source": "api",
+      "apiKey": "<LITELLM_KEY>",
+      "region": "https://fern.addi.com"
+    }
+  ]
+}
+```
+
+Then relaunch CodexBar and enable LiteLLM in Settings -> Providers.
+
 ## Overview
 This repository is an internal fork of [steipete/CodexBar](https://github.com/steipete/CodexBar) (MIT licensed) with team-specific changes (including LiteLLM provider work).
 
