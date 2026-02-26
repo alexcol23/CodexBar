@@ -44,9 +44,38 @@ shasum -a 256 CodexBar-internal-adhoc-...zip
 cat CodexBar-internal-adhoc-...zip.sha256
 ```
 
-## Required LiteLLM Config
-Create/update `~/.codexbar/config.json` (never commit secrets):
+## Required LiteLLM Setup
+Do this in this order:
 
+1. Open CodexBar Settings -> Providers.
+2. Enable `LiteLLM`.
+3. Configure credentials using one of the two options below.
+
+Before configuring, clear stale system env vars (recommended for clean setup):
+```bash
+launchctl unsetenv LITELLM_API_KEY
+launchctl unsetenv LITELLM_BASE_URL
+launchctl unsetenv ANTHROPIC_API_KEY
+```
+
+### Option 1: System env vars (GUI-safe)
+Use this if your team prefers central machine-level configuration:
+
+```bash
+launchctl setenv LITELLM_API_KEY "<LITELLM_KEY>"
+launchctl setenv LITELLM_BASE_URL "https://fern.addi.com"
+```
+
+Then fully quit and reopen CodexBar.
+
+### Option 2: Settings panel (simplest for users)
+In Settings -> Providers -> LiteLLM, paste:
+- API Key: `<LITELLM_KEY>`
+- Base URL: `https://fern.addi.com`
+
+No terminal commands required.
+
+Optional config-file method (`~/.codexbar/config.json`, never commit secrets):
 ```json
 {
   "version": 1,
@@ -61,8 +90,6 @@ Create/update `~/.codexbar/config.json` (never commit secrets):
   ]
 }
 ```
-
-Then relaunch CodexBar and enable `LiteLLM` in Settings -> Providers.
 
 ## Quick Verify
 - Menu bar icon appears after launch.
