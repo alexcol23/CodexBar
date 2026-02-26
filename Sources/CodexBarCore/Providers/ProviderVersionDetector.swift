@@ -42,19 +42,20 @@ public enum ProviderVersionDetector {
             return nil
         }
 
-        let deadline = Date().addingTimeInterval(2.0)
-        while proc.isRunning, Date() < deadline {
-            usleep(50000)
-        }
+        _ = Self.waitForExit(proc, timeout: 2.0)
         if proc.isRunning {
             proc.terminate()
-            let killDeadline = Date().addingTimeInterval(0.5)
-            while proc.isRunning, Date() < killDeadline {
-                usleep(20000)
-            }
+            _ = Self.waitForExit(proc, timeout: 0.5)
             if proc.isRunning {
                 kill(proc.processIdentifier, SIGKILL)
+                _ = Self.waitForExit(proc, timeout: 0.5)
             }
+        }
+
+        // `terminationStatus` and Process deinit both require the task to be exited.
+        // Ensure we never read status (or return) while the process is still running.
+        if proc.isRunning {
+            proc.waitUntilExit()
         }
 
         let data = out.fileHandleForReading.readDataToEndOfFile()
@@ -64,5 +65,13 @@ public enum ProviderVersionDetector {
         else { return nil }
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty ? nil : trimmed
+    }
+
+    private static func waitForExit(_ process: Process, timeout: TimeInterval) -> Bool {
+        let deadline = Date().addingTimeInterval(timeout)
+        while process.isRunning, Date() < deadline {
+            usleep(20_000)
+        }
+        return !process.isRunning
     }
 }

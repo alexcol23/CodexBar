@@ -27,6 +27,8 @@ public enum ProviderConfigEnvironment {
             }
         case .openrouter:
             env[OpenRouterSettingsReader.envKey] = apiKey
+        case .litellm:
+            env[LiteLLMSettingsReader.apiKeyKey] = apiKey
         default:
             break
         }
