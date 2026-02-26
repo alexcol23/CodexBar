@@ -27,6 +27,23 @@ xattr -dr com.apple.quarantine /Applications/CodexBar.app
 open /Applications/CodexBar.app
 ```
 
+## Download Internal Release
+Latest internal release page:
+- https://github.com/alexcol23/CodexBar/releases/tag/internal-2026-02-26-ba78fea
+
+All releases:
+- https://github.com/alexcol23/CodexBar/releases
+
+Download these two assets:
+1. `CodexBar-internal-adhoc-...zip`
+2. `CodexBar-internal-adhoc-...zip.sha256`
+
+Verify checksum:
+```bash
+shasum -a 256 CodexBar-internal-adhoc-...zip
+cat CodexBar-internal-adhoc-...zip.sha256
+```
+
 ## Required LiteLLM Config
 Create/update `~/.codexbar/config.json` (never commit secrets):
 
