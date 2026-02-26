@@ -16,7 +16,8 @@ public struct ProviderSettingsSnapshot: Sendable {
         augment: AugmentProviderSettings? = nil,
         amp: AmpProviderSettings? = nil,
         ollama: OllamaProviderSettings? = nil,
-        jetbrains: JetBrainsProviderSettings? = nil) -> ProviderSettingsSnapshot
+        jetbrains: JetBrainsProviderSettings? = nil,
+        litellm: LiteLLMProviderSettings? = nil) -> ProviderSettingsSnapshot
     {
         ProviderSettingsSnapshot(
             debugMenuEnabled: debugMenuEnabled,
@@ -33,7 +34,8 @@ public struct ProviderSettingsSnapshot: Sendable {
             augment: augment,
             amp: amp,
             ollama: ollama,
-            jetbrains: jetbrains)
+            jetbrains: jetbrains,
+            litellm: litellm)
     }
 
     public struct CodexProviderSettings: Sendable {
@@ -179,6 +181,14 @@ public struct ProviderSettingsSnapshot: Sendable {
         }
     }
 
+    public struct LiteLLMProviderSettings: Sendable {
+        public let baseURL: String?
+
+        public init(baseURL: String? = nil) {
+            self.baseURL = baseURL
+        }
+    }
+
     public let debugMenuEnabled: Bool
     public let debugKeepCLISessionsAlive: Bool
     public let codex: CodexProviderSettings?
@@ -194,6 +204,7 @@ public struct ProviderSettingsSnapshot: Sendable {
     public let amp: AmpProviderSettings?
     public let ollama: OllamaProviderSettings?
     public let jetbrains: JetBrainsProviderSettings?
+    public let litellm: LiteLLMProviderSettings?
 
     public var jetbrainsIDEBasePath: String? {
         self.jetbrains?.ideBasePath
@@ -214,7 +225,8 @@ public struct ProviderSettingsSnapshot: Sendable {
         augment: AugmentProviderSettings?,
         amp: AmpProviderSettings?,
         ollama: OllamaProviderSettings?,
-        jetbrains: JetBrainsProviderSettings? = nil)
+        jetbrains: JetBrainsProviderSettings? = nil,
+        litellm: LiteLLMProviderSettings? = nil)
     {
         self.debugMenuEnabled = debugMenuEnabled
         self.debugKeepCLISessionsAlive = debugKeepCLISessionsAlive
@@ -231,6 +243,7 @@ public struct ProviderSettingsSnapshot: Sendable {
         self.amp = amp
         self.ollama = ollama
         self.jetbrains = jetbrains
+        self.litellm = litellm
     }
 }
 
@@ -248,6 +261,7 @@ public enum ProviderSettingsSnapshotContribution: Sendable {
     case amp(ProviderSettingsSnapshot.AmpProviderSettings)
     case ollama(ProviderSettingsSnapshot.OllamaProviderSettings)
     case jetbrains(ProviderSettingsSnapshot.JetBrainsProviderSettings)
+    case litellm(ProviderSettingsSnapshot.LiteLLMProviderSettings)
 }
 
 public struct ProviderSettingsSnapshotBuilder: Sendable {
@@ -266,6 +280,7 @@ public struct ProviderSettingsSnapshotBuilder: Sendable {
     public var amp: ProviderSettingsSnapshot.AmpProviderSettings?
     public var ollama: ProviderSettingsSnapshot.OllamaProviderSettings?
     public var jetbrains: ProviderSettingsSnapshot.JetBrainsProviderSettings?
+    public var litellm: ProviderSettingsSnapshot.LiteLLMProviderSettings?
 
     public init(debugMenuEnabled: Bool = false, debugKeepCLISessionsAlive: Bool = false) {
         self.debugMenuEnabled = debugMenuEnabled
@@ -287,6 +302,7 @@ public struct ProviderSettingsSnapshotBuilder: Sendable {
         case let .amp(value): self.amp = value
         case let .ollama(value): self.ollama = value
         case let .jetbrains(value): self.jetbrains = value
+        case let .litellm(value): self.litellm = value
         }
     }
 
@@ -306,6 +322,7 @@ public struct ProviderSettingsSnapshotBuilder: Sendable {
             augment: self.augment,
             amp: self.amp,
             ollama: self.ollama,
-            jetbrains: self.jetbrains)
+            jetbrains: self.jetbrains,
+            litellm: self.litellm)
     }
 }

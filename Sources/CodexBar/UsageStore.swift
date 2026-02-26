@@ -1243,6 +1243,11 @@ extension UsageStore {
                 let hasAny = resolution != nil
                 let source = resolution?.source.rawValue ?? "none"
                 text = "WARP_API_KEY=\(hasAny ? "present" : "missing") source=\(source)"
+            case .litellm:
+                let resolution = ProviderTokenResolver.litellmResolution()
+                let hasAny = resolution != nil
+                let source = resolution?.source.rawValue ?? "none"
+                text = "LITELLM_API_KEY=\(hasAny ? "present" : "missing") source=\(source)"
             case .gemini, .antigravity, .opencode, .factory, .copilot, .vertexai, .kiro, .kimi, .kimik2, .jetbrains:
                 text = unimplementedDebugLogMessages[provider] ?? "Debug log not yet implemented"
             }
